@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Caio Vinicius | Desenvolvimento Dinâmico</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = { theme: { extend: { fontFamily: { sans: ['Inter', 'sans-serif'], heading: ['Outfit', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] } } } }
+</script>
+<style type="text/tailwindcss">
+.campo { @apply w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400; }
+.btn { @apply px-4 py-2 rounded-lg text-sm font-semibold bg-cyan-400 text-slate-950 hover:bg-cyan-300 transition; }
+.glass { background: rgba(15,23,42,.75); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,.08); }
+.marca { background: linear-gradient(transparent 62%, rgba(252,211,77,.4) 62%, rgba(252,211,77,.4) 92%, transparent 92%) no-repeat left / 0% 100%; animation: marca 1s .3s ease forwards; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+@keyframes marca { to { background-size: 100% 100%; } }
+@media (prefers-reduced-motion: reduce) { .marca { animation: none; background-size: 100% 100%; } html { scroll-behavior: auto; } }
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #020617; }
+::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+</style>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans antialiased selection:bg-cyan-400 selection:text-slate-950">
+<div id="toasts" class="fixed top-20 right-4 z-50 flex flex-col gap-3 max-w-sm pointer-events-none"></div>
+
+<header class="sticky top-0 z-40 glass border-b border-slate-800/80">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+    <a href="#hero" class="flex items-center gap-3">
+      <span class="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 to-amber-300 flex items-center justify-center font-heading font-extrabold text-slate-950">CV</span>
+      <span class="font-heading font-bold text-lg">Caio Vinicius</span>
+    </a>
+    <nav class="hidden md:flex items-center gap-1 text-sm font-medium">
+      <a href="#sobre" class="px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60">Sobre</a>
+      <a href="#projetos" class="px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60">Projetos</a>
+      <a href="#playground" class="px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60">Playground</a>
+      <a href="#contato" class="ml-2 px-4 py-2 rounded-lg bg-cyan-400 text-slate-950 font-semibold hover:bg-cyan-300">Contato</a>
+    </nav>
+    <button id="menu-btn" aria-label="Abrir menu" aria-expanded="false" class="md:hidden px-3 py-2 rounded-lg border border-slate-700 text-slate-300">Menu</button>
+  </div>
+  <div id="menu" class="hidden md:hidden border-t border-slate-800 px-4 py-3 space-y-1 text-sm">
+    <a href="#sobre" class="block px-3 py-2 rounded-md hover:bg-slate-800">Sobre</a>
+    <a href="#projetos" class="block px-3 py-2 rounded-md hover:bg-slate-800">Projetos</a>
+    <a href="#playground" class="block px-3 py-2 rounded-md hover:bg-slate-800">Playground</a>
+    <a href="#contato" class="block px-3 py-2 rounded-md hover:bg-slate-800">Contato</a>
+  </div>
+</header>
+
+<main>
+  <section id="hero" class="relative py-16 sm:py-24 overflow-hidden">
+    <div class="absolute top-1/4 left-1/3 w-[500px] h-[360px] bg-cyan-500/10 blur-[130px] rounded-full pointer-events-none"></div>
+    <div class="absolute top-1/3 right-0 w-[320px] h-[320px] bg-amber-300/10 blur-[120px] rounded-full pointer-events-none"></div>
+    <div class="relative max-w-6xl mx-auto px-4 sm:px-6 grid lg:grid-cols-12 gap-12 items-center">
+      <div class="lg:col-span-7 space-y-6">
+        <p id="saudacao" class="text-lg text-slate-400 font-medium" aria-live="polite"></p>
+        <h1 class="font-heading text-5xl sm:text-7xl font-extrabold tracking-tight leading-none"><span class="marca">Caio Vinicius</span></h1>
+        <p class="text-lg text-slate-300 max-w-xl font-light leading-relaxed">Desenvolvedor Full Stack em Salvador, Bahia. Estudo Análise e Desenvolvimento de Sistemas na UniJorge e construo aplicações web e mobile desde 2024.</p>
+        <div class="flex flex-col sm:flex-row gap-3 pt-2">
+          <a href="#projetos" class="px-6 py-3 rounded-xl bg-cyan-400 text-slate-950 font-semibold text-center hover:bg-cyan-300 transition">Ver projetos</a>
+          <a href="#playground" class="px-6 py-3 rounded-xl border border-slate-700 text-slate-200 font-semibold text-center hover:border-cyan-400 transition">Abrir playground</a>
+        </div>
+        <dl class="grid grid-cols-3 gap-4 pt-8 border-t border-slate-800 max-w-md">
+          <div><dt class="text-xs text-slate-400">Programando desde</dt><dd class="font-heading font-bold text-3xl text-white">2024</dd></div>
+          <div><dt class="text-xs text-slate-400">Projetos nesta página</dt><dd id="n-proj" class="font-heading font-bold text-3xl text-cyan-400">0</dd></div>
+          <div><dt class="text-xs text-slate-400">Certificações</dt><dd class="font-heading font-bold text-3xl text-amber-300">Cisco</dd></div>
+        </dl>
+      </div>
+      <div class="lg:col-span-5">
+        <div class="glass rounded-3xl p-6 space-y-5 shadow-2xl">
+          <div>
+            <p class="text-xs text-slate-400">Agora em Salvador, BA</p>
+            <p id="hora" class="font-heading font-extrabold text-4xl tabular-nums">--:--:--</p>
+          </div>
+          <div class="bg-slate-950/80 rounded-xl p-4 font-mono text-xs text-slate-300 border border-slate-800 space-y-1">
+            <p><span class="text-amber-300">const</span> <span class="text-cyan-300">aluno</span> = {</p>
+            <p class="pl-4">nome: <span class="text-emerald-300">'Caio Vinicius'</span>,</p>
+            <p class="pl-4">curso: <span class="text-emerald-300">'ADS, UniJorge'</span>,</p>
+            <p class="pl-4">stack: <span class="text-emerald-300">['Java', 'TypeScript', 'Node.js']</span>,</p>
+            <p class="pl-4">disciplina: <span class="text-emerald-300">'Desenvolvimento Dinâmico'</span></p>
+            <p>};</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="sobre" class="py-20 bg-slate-900/50 border-y border-slate-800/60">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <h2 class="font-heading text-3xl sm:text-4xl font-extrabold">Sobre mim</h2>
+      <p class="text-slate-400 mt-2 mb-10 max-w-xl">Estudo na faculdade e pratico em projetos próprios e de clientes.</p>
+      <div id="sobre-cards" class="grid md:grid-cols-3 gap-6"></div>
+    </div>
+  </section>
+
+  <section id="projetos" class="py-20">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <h2 class="font-heading text-3xl sm:text-4xl font-extrabold">Projetos</h2>
+      <p class="text-slate-400 mt-2 mb-6">Escolha uma tecnologia para filtrar a lista.</p>
+      <div id="filtros" class="flex flex-wrap gap-2 mb-3" role="group" aria-label="Filtrar por tecnologia"></div>
+      <p id="contagem" class="text-sm text-slate-500 mb-2" aria-live="polite"></p>
+      <ul id="projetos-lista"></ul>
+    </div>
+  </section>
+
+  <section id="playground" class="py-20 bg-slate-900/80 border-t border-slate-800">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <h2 class="font-heading text-3xl sm:text-4xl font-extrabold">Playground de JavaScript</h2>
+      <p class="text-slate-400 mt-2 mb-8">Três exemplos do que aprendi na disciplina: DOM, Fetch API e estado.</p>
+      <div class="glass rounded-3xl overflow-hidden shadow-2xl">
+        <div class="bg-slate-950/90 border-b border-slate-800 p-3 flex gap-2 overflow-x-auto text-sm font-mono">
+          <button data-tab="dom" class="px-4 py-2 rounded-lg whitespace-nowrap bg-cyan-400 text-slate-950 font-semibold">1. Manipular DOM</button>
+          <button data-tab="api" class="px-4 py-2 rounded-lg whitespace-nowrap text-slate-400 hover:text-white hover:bg-slate-800">2. Fetch API (ViaCEP)</button>
+          <button data-tab="state" class="px-4 py-2 rounded-lg whitespace-nowrap text-slate-400 hover:text-white hover:bg-slate-800">3. Estado reativo</button>
+        </div>
+
+        <div data-pane="dom" class="p-6 sm:p-8 grid lg:grid-cols-2 gap-8">
+          <div class="space-y-4">
+            <div><label for="dom-titulo" class="block text-xs font-mono text-slate-300 mb-1">Título (textContent)</label><input id="dom-titulo" class="campo" value="Desenvolvimento Dinâmico"></div>
+            <div><span class="block text-xs font-mono text-slate-300 mb-2">Cor de destaque (style)</span><div id="cores" class="flex gap-2"></div></div>
+            <form id="form-tag"><label for="tag-input" class="block text-xs font-mono text-slate-300 mb-1">Nova tag (createElement)</label>
+              <div class="flex gap-2"><input id="tag-input" class="campo" placeholder="Ex: DOM"><button class="btn">Adicionar</button></div></form>
+          </div>
+          <div id="dom-alvo" class="glass rounded-2xl p-6 border-2 border-cyan-400 transition-colors">
+            <h3 id="dom-alvo-titulo" class="font-heading font-bold text-2xl text-cyan-400 mb-2">Desenvolvimento Dinâmico</h3>
+            <p class="text-sm text-slate-300 mb-4">Este cartão muda em tempo real conforme os campos ao lado.</p>
+            <div id="tags" class="flex flex-wrap gap-2">
+              <span class="text-xs font-mono px-2.5 py-1 rounded-md bg-slate-800 border border-slate-700 text-cyan-400">JavaScript</span>
+              <span class="text-xs font-mono px-2.5 py-1 rounded-md bg-slate-800 border border-slate-700 text-cyan-400">HTML5</span>
+            </div>
+          </div>
+        </div>
+
+        <div data-pane="api" class="hidden p-6 sm:p-8 grid lg:grid-cols-2 gap-8">
+          <form id="form-cep" class="space-y-4">
+            <p class="text-sm text-slate-400">Consulta real à API ViaCEP com async/await e tratamento de erro.</p>
+            <div><label for="cep" class="block text-xs font-mono text-slate-300 mb-1">CEP</label><input id="cep" class="campo" value="01001000" inputmode="numeric" maxlength="9"></div>
+            <button class="btn w-full">fetch(cep)</button>
+          </form>
+          <div class="bg-slate-950 rounded-2xl p-5 border border-slate-800 font-mono">
+            <div class="flex justify-between text-xs border-b border-slate-800 pb-3 mb-3"><span class="text-slate-400">Resposta</span><span id="cep-status" class="text-slate-400">Aguardando</span></div>
+            <pre id="cep-saida" class="text-xs text-emerald-400 overflow-x-auto max-h-60">// Clique em fetch(cep)</pre>
+          </div>
+        </div>
+
+        <div data-pane="state" class="hidden p-6 sm:p-8 grid lg:grid-cols-2 gap-8">
+          <form id="form-tarefa" class="space-y-4">
+            <label for="tarefa" class="block text-xs font-mono text-slate-300">Nova tarefa de estudo</label>
+            <div class="flex gap-2"><input id="tarefa" class="campo" placeholder="Ex: Estudar Promises"><button class="btn">Adicionar</button></div>
+            <p class="text-sm text-slate-400">Total: <strong id="t-total" class="text-cyan-400">0</strong></p>
+            <p class="font-mono text-[11px] text-slate-500 break-all">estado = <span id="t-raw" class="text-amber-300"></span></p>
+          </form>
+          <ul id="tarefas" class="space-y-2 max-h-64 overflow-y-auto"></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contato" class="py-20">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6">
+      <h2 class="font-heading text-3xl sm:text-4xl font-extrabold">Contato</h2>
+      <p class="text-slate-400 mt-2 mb-8">Fale comigo ou veja meu código no <a class="text-cyan-400 hover:underline" href="https://github.com/caioba19" target="_blank" rel="noopener">GitHub</a>.</p>
+      <form id="form-contato" class="glass rounded-3xl p-6 sm:p-8 space-y-5" novalidate>
+        <div class="grid sm:grid-cols-2 gap-5">
+          <div><label for="c-nome" class="block text-xs font-mono text-slate-300 mb-2">Nome</label><input id="c-nome" class="campo" autocomplete="name"></div>
+          <div><label for="c-email" class="block text-xs font-mono text-slate-300 mb-2">E-mail</label><input id="c-email" type="email" class="campo" autocomplete="email"></div>
+        </div>
+        <div><label for="c-msg" class="block text-xs font-mono text-slate-300 mb-2">Mensagem</label><textarea id="c-msg" rows="4" class="campo resize-none"></textarea></div>
+        <button class="btn w-full py-3">Enviar mensagem</button>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="border-t border-slate-800 py-8 text-xs text-slate-400">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row justify-between gap-2">
+    <p>&copy; <span id="ano"></span> Caio Vinicius. Atividade de Desenvolvimento Dinâmico, UniJorge.</p>
+    <p class="font-mono">HTML5, Tailwind CSS e JavaScript ES6+</p>
+  </div>
+</footer>
+
+<script>
+const $ = (s) => document.querySelector(s);
+const $$ = (s) => document.querySelectorAll(s);
+
+function toast(msg, erro = false) {
+  const t = document.createElement('div');
+  t.className = 'pointer-events-auto glass rounded-xl px-4 py-3 text-sm shadow-2xl border-l-4 transition-all duration-300 ' + (erro ? 'border-l-red-400 text-red-200' : 'border-l-cyan-400 text-slate-100');
+  t.textContent = msg;
+  $('#toasts').append(t);
+  setTimeout(() => { t.classList.add('opacity-0', '-translate-y-2'); setTimeout(() => t.remove(), 300); }, 3500);
+}
+
+$('#ano').textContent = new Date().getFullYear();
+$('#menu-btn').addEventListener('click', (e) => {
+  const aberto = $('#menu').classList.toggle('hidden') === false;
+  e.currentTarget.setAttribute('aria-expanded', aberto);
+});
+$$('#menu a').forEach((a) => a.addEventListener('click', () => $('#menu').classList.add('hidden')));
+
+function relogio() {
+  const agora = new Date();
+  const h = agora.getHours();
+  $('#saudacao').textContent = (h < 12 ? 'Bom dia' : h < 18 ? 'Boa tarde' : 'Boa noite') + ', seja bem-vindo.';
+  $('#hora').textContent = agora.toLocaleTimeString('pt-BR', { timeZone: 'America/Bahia' });
+}
+relogio();
+setInterval(relogio, 1000);
+
+const sobre = [
+  { t: 'Formação', d: 'Análise e Desenvolvimento de Sistemas no Centro Universitário Jorge Amado, com certificações Cisco.', c: 'text-cyan-400' },
+  { t: 'Foco', d: 'Desenvolvimento web e mobile, com Java, TypeScript e Node.js. Programo desde 2024.', c: 'text-amber-300' },
+  { t: 'Freelance', d: 'Sites para negócios locais de Salvador, do layout à publicação.', c: 'text-emerald-400' }
+];
+$('#sobre-cards').innerHTML = sobre.map((s) => `<div class="glass rounded-2xl p-6 hover:-translate-y-1 transition"><h3 class="font-heading font-bold text-xl mb-2 ${s.c}">${s.t}</h3><p class="text-sm text-slate-300 leading-relaxed">${s.d}</p></div>`).join('');
+
+const projetos = [
+  { titulo: 'Urna Cidadã', texto: 'Simulador de urna eletrônica com interface em Java Swing e dados no Firebase, usado em oficina numa escola.', tags: ['Java', 'Firebase'] },
+  { titulo: 'API REST acadêmica', texto: 'Professores, cursos, disciplinas e alunos com relacionamentos OneToOne, OneToMany e ManyToMany.', tags: ['Java', 'Spring Boot', 'JPA'] },
+  { titulo: 'CRUD de alunos', texto: 'Cadastro, listagem, edição e exclusão de alunos com Express, mysql2 e TypeScript.', tags: ['TypeScript', 'Node.js', 'MySQL'] },
+  { titulo: 'Aura Finance', texto: 'Gerenciador financeiro completo, com layout responsivo para celular.', tags: ['TypeScript', 'React'] },
+  { titulo: 'Pipeline Terraform', texto: 'Plan e apply automáticos no GitHub Actions criando um banco Postgres na Aiven.', tags: ['DevOps', 'Terraform'] },
+  { titulo: 'Sites para negócios locais', texto: 'Páginas sob medida para comércios de Salvador, do layout à publicação.', tags: ['HTML', 'CSS', 'JavaScript'] }
+];
+const techs = ['Todos', ...new Set(projetos.flatMap((p) => p.tags))];
+let filtro = 'Todos';
+
+function desenharProjetos() {
+  $('#filtros').innerHTML = techs.map((t) => `<button data-t="${t}" aria-pressed="${t === filtro}" class="px-4 py-1.5 rounded-full text-sm border transition ${t === filtro ? 'bg-cyan-400 text-slate-950 border-cyan-400 font-semibold' : 'border-slate-700 text-slate-300 hover:border-cyan-400'}">${t}</button>`).join('');
+  const lista = projetos.filter((p) => filtro === 'Todos' || p.tags.includes(filtro));
+  $('#projetos-lista').innerHTML = lista.map((p) => `<li class="grid md:grid-cols-5 gap-3 md:gap-8 py-6 border-t border-slate-800 last:border-b"><h3 class="md:col-span-2 font-heading font-bold text-xl">${p.titulo}</h3><div class="md:col-span-3"><p class="text-sm text-slate-400">${p.texto}</p><div class="flex flex-wrap gap-1.5 mt-3">${p.tags.map((t) => `<span class="text-[11px] font-mono bg-slate-800 text-cyan-300 px-2 py-0.5 rounded">${t}</span>`).join('')}</div></div></li>`).join('');
+  $('#contagem').textContent = `Mostrando ${lista.length} de ${projetos.length} projetos`;
+}
+$('#filtros').addEventListener('click', (e) => {
+  const b = e.target.closest('button');
+  if (!b) return;
+  filtro = b.dataset.t;
+  desenharProjetos();
+});
+$('#n-proj').textContent = projetos.length;
+desenharProjetos();
+
+$$('[data-tab]').forEach((b) => b.addEventListener('click', () => {
+  $$('[data-tab]').forEach((x) => {
+    const ativo = x === b;
+    x.classList.toggle('bg-cyan-400', ativo);
+    x.classList.toggle('text-slate-950', ativo);
+    x.classList.toggle('font-semibold', ativo);
+    x.classList.toggle('text-slate-400', !ativo);
+  });
+  $$('[data-pane]').forEach((p) => p.classList.toggle('hidden', p.dataset.pane !== b.dataset.tab));
+}));
+
+const cores = ['#22d3ee', '#fcd34d', '#34d399', '#f472b6', '#a78bfa'];
+$('#cores').innerHTML = cores.map((c) => `<button type="button" data-c="${c}" aria-label="Cor ${c}" class="w-8 h-8 rounded-full" style="background:${c}"></button>`).join('');
+$('#dom-titulo').addEventListener('input', (e) => { $('#dom-alvo-titulo').textContent = e.target.value.trim() || 'Título em branco'; });
+$('#cores').addEventListener('click', (e) => {
+  const c = e.target.dataset.c;
+  if (!c) return;
+  $('#dom-alvo').style.borderColor = c;
+  $('#dom-alvo-titulo').style.color = c;
+  $$('#tags span').forEach((s) => { s.style.color = c; });
+});
+$('#form-tag').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const campo = $('#tag-input');
+  const valor = campo.value.trim();
+  if (!valor) return;
+  const tag = document.createElement('span');
+  tag.className = 'text-xs font-mono px-2.5 py-1 rounded-md bg-slate-800 border border-slate-700';
+  tag.style.color = $('#dom-alvo-titulo').style.color || '#22d3ee';
+  tag.textContent = valor;
+  $('#tags').append(tag);
+  campo.value = '';
+  toast(`Tag "${valor}" adicionada ao DOM.`);
+});
+
+$('#form-cep').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const cep = $('#cep').value.replace(/\D/g, '');
+  if (cep.length !== 8) return toast('Digite um CEP com 8 números.', true);
+  $('#cep-status').textContent = 'Carregando...';
+  $('#cep-saida').textContent = '// Promise pendente';
+  try {
+    const resposta = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+    if (!resposta.ok) throw new Error(`Erro HTTP ${resposta.status}`);
+    const dados = await resposta.json();
+    if (dados.erro) throw new Error('CEP não encontrado');
+    $('#cep-status').textContent = '200 OK';
+    $('#cep-saida').textContent = JSON.stringify(dados, null, 2);
+  } catch (erro) {
+    $('#cep-status').textContent = 'Erro';
+    $('#cep-saida').textContent = `// ${erro.message}`;
+    toast(erro.message, true);
+  }
+});
+
+let tarefas = ['Revisar Arrow Functions', 'Praticar Fetch API'];
+function desenharTarefas() {
+  const ul = $('#tarefas');
+  ul.replaceChildren();
+  if (!tarefas.length) {
+    const vazio = document.createElement('li');
+    vazio.className = 'text-sm text-slate-500';
+    vazio.textContent = 'Nenhuma tarefa. Adicione a primeira.';
+    ul.append(vazio);
+  }
+  tarefas.forEach((t, i) => {
+    const li = document.createElement('li');
+    li.className = 'flex justify-between items-center gap-3 p-3 rounded-lg bg-slate-900 border border-slate-800 text-sm';
+    const texto = document.createElement('span');
+    texto.textContent = `${i + 1}. ${t}`;
+    const remover = document.createElement('button');
+    remover.type = 'button';
+    remover.className = 'text-xs text-slate-500 hover:text-red-400';
+    remover.textContent = 'Remover';
+    remover.addEventListener('click', () => { tarefas.splice(i, 1); desenharTarefas(); });
+    li.append(texto, remover);
+    ul.append(li);
+  });
+  $('#t-total').textContent = tarefas.length;
+  $('#t-raw').textContent = JSON.stringify(tarefas);
+}
+$('#form-tarefa').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const valor = $('#tarefa').value.trim();
+  if (!valor) return;
+  tarefas.push(valor);
+  $('#tarefa').value = '';
+  desenharTarefas();
+});
+desenharTarefas();
+
+$('#form-contato').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const nome = $('#c-nome').value.trim();
+  if (nome.length < 2) return toast('Escreva seu nome.', true);
+  if (!$('#c-email').checkValidity() || !$('#c-email').value) return toast('Informe um e-mail válido.', true);
+  if ($('#c-msg').value.trim().length < 5) return toast('A mensagem precisa ter pelo menos 5 caracteres.', true);
+  toast(`Obrigado, ${nome}! Formulário de demonstração, nenhuma mensagem foi enviada.`);
+  e.target.reset();
+});
+</script>
+</body>
+</html>
